@@ -1,6 +1,6 @@
 
 # Create your views here.
-from django.shortcuts import render_to_response, RequestContext, get_object_or_404, get_list_or_404
+from django.shortcuts import render, RequestContext, get_object_or_404, get_list_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import Post, Category
 
@@ -16,16 +16,18 @@ def all_posts(request):
     except EmptyPage:
         # If page is out of range (e.g. 9999), deliver last page of results.
         posts = paginator.page(paginator.num_pages)
-
-    return render_to_response('blog/all.html', locals(), context_instance=RequestContext(request))
+    data = {'posts': posts}
+    return render(request, 'blog/all.html', data)
 
 def single_post(request, slug):
     post = get_object_or_404(Post, slug=slug)
-    return render_to_response('blog/single.html', locals(), context_instance=RequestContext(request))
+    data = {'post': post}
+    return render(request, 'blog/single.html', data)
 
 
 def category_archive(request, slug):
     category = get_object_or_404(Category, slug=slug)
     categories = Category.objects.all()
     posts = Post.objects.filter(categories=category)
-    return render_to_response('blog/category.html', locals(), context_instance=RequestContext(request))
+    data = {'cateogries': categories, 'posts': posts}
+    return render(request, 'blog/category.html', data)
