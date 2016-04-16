@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+    {{ post.timestamp|date:"N d, Y" }} |
+        {% for category in post.categories.all %}
+            {% if forloop.counter >= 2 %}  :{% endif %}
+            <a href='{{ category.get_absolute_url }}'>{{ category.title }}</a>
+        {% endfor %}
+        <h1>{{ post.title }}</h1>
+        <p>{{ post.content }}</p>
+    {% if post.get_previous_by_timestamp %}
+        <a href="{{ post.get_previous_post.get_absolute_url }}" >Previous Post</a>
+    {% endif %}
+
+    {% if post.get_next_by_timestamp %}
+        <a class="right" href="{{ post.get_next_post.get_absolute_url }}" >Next Post</a>
+    {% endif %}
+{% endblock %}

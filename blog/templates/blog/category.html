@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{{ category.title }}</h1>
+    {% for post in posts %}
+       {{ post.timestamp|date:"N d, Y" }}
+            {% for category in post.categories.all %}
+                {% if forloop.counter >= 2 %}  |{% endif %}
+                <a href='{{ category.get_absolute_url }}'>{{ category.title }}</a>
+            {% endfor %}
+        <h2><a href='{{ post.get_absolute_url }}'>{{ post.title }}</a></h2>
+        <p>{{ post.description }}</p>
+        <a href='{{ post.get_absolute_url }}'>Read More</a>
+    {% endfor %}
+{% endblock %}
