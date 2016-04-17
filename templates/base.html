@@ -1,14 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="style.css" />
+	{% load staticfiles %}
+	<script src="{% static "blog/js/audiodisplay.js" %}"></script>
+	<script src="{% static "blog/js/recorderjs/recorder.js" %}"></script>
+    <script src="{% static "blog/js/main.js" %}"></script>
     <title>{% block title %}My amazing site{% endblock %}</title>
+    {% block head %}
+    {% endblock %}
 </head>
 
 <body>
 
     <div id="content">
-        {% block content %}{% endblock %}
+        {% block content %}
+        {% endblock %}
     </div>
 </body>
 </html>

@@ -1,32 +1,70 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+{% block head %}
+<meta content="width=device-width,initial-scale=1" name="viewport">
 {% block title %}
-Roya's App. All Posts
+Audio Recorder
 {% endblock %}
+<style>
+html { overflow: hidden; }
+body {
+	font: 14pt Arial, sans-serif;
+	background: lightgrey;
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+	width: 100%;
+	margin: 0 0;
+}
+canvas {
+	display: inline-block;
+	background: #202020;
+	width: 95%;
+	height: 45%;
+	box-shadow: 0px 0px 10px blue;
+}
+#controls {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-around;
+	height: 20%;
+	width: 100%;
+}
+#record { height: 15vh; }
+#record.recording {
+	background: red;
+	background: -webkit-radial-gradient(center, ellipse cover, #ff0000 0%,lightgrey 75%,lightgrey 100%,#7db9e8 100%);
+	background: -moz-radial-gradient(center, ellipse cover, #ff0000 0%,lightgrey 75%,lightgrey 100%,#7db9e8 100%);
+	background: radial-gradient(center, ellipse cover, #ff0000 0%,lightgrey 75%,lightgrey 100%,#7db9e8 100%);
+}
+#save, #save img { height: 10vh; }
+#save { opacity: 0.25;}
+#save[download] { opacity: 1;}
+#viz {
+	height: 80%;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
+}
+@media (orientation: landscape) {
+	body { flex-direction: row;}
+	#controls { flex-direction: column; height: 100%; width: 10%;}
+	#viz { height: 100%; width: 90%;}
+}
 
+</style>
+{% endblock %}
 {% block content %}
-<h1>Blog</h1>
-{% for post in posts %}
-    {{ post.timestamp|date:"N d, Y" }}
-        {% for category in post.categories.all %}
-            {% if forloop.counter >= 2 %}  |{% endif %}
-                <a href='{{ category.get_absolute_url }}'>{{ category.title }}</a>
-         {% endfor %}
-    <h2><a href='{{ post.get_absolute_url }}'>{{ post.title }}</a></h2>
-    <p>{{ post.description }}</p>
-{% endfor %}
-<div class="pagination">
-    <span class="step-links">
-        {% if posts.has_previous %}
-            <a href="?page={{ posts.previous_page_number }}">Previous Page</a>
-        {% endif %}
 
-        <span class="current">
-            Page {{ posts.number }} of {{ posts.paginator.num_pages }}
-        </span>
-
-        {% if posts.has_next %}
-            <a href="?page={{ posts.next_page_number }}">Next Page</a>
-        {% endif %}
-    </span>
-</div>
+	<div id="viz">
+		<canvas height="500" width="1024" id="analyser"></canvas>
+		<canvas height="500" width="1024" id="wavedisplay"></canvas>
+	</div>
+	<div id="controls">
+		{% load staticfiles %}
+		<img onclick="toggleRecording(this);" src="{% static "blog/img/mic128.png" %}" id="record" class="">
+		<a href="blob:https://webaudiodemos.appspot.com/53d040e8-0dcb-c84a-a741-f4cfd725be80" id="save" download="myRecording00.wav"><img src="{% static "blog/img/save.svg" %}"></a>
+	</div>
 {% endblock %}

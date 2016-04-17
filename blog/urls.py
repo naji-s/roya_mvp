@@ -1,6 +1,8 @@
 from django.conf import settings
 from django.conf.urls import patterns, include, url
 from . import views
+from django.conf.urls.static import static
+
 # make sure you add ** (r'^blog/', include('blog.urls')), ** to your project's main urls.py
 urlpatterns = [
     url(r'^$', views.all_posts, name='posts'),
