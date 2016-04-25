@@ -1,4 +1,4 @@
-#!/Users/naji/Roya/roya_mvp/venv/bin/python3.5
+#!/Users/Updates/git/apilweb-django/APILWeb/venv/bin/python3.5
 from django.core import management
 
 if __name__ == "__main__":

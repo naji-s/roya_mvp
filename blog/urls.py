@@ -8,4 +8,5 @@ urlpatterns = [
     url(r'^$', views.all_posts, name='posts'),
     url(r'^post/(?P<slug>[-\w]+)/$', views.single_post, name='post'),
     url(r'^category/(?P<slug>[-\w]+)/$', views.category_archive, name='category'),
+    url(r'^add_post/$', views.add_post, name='addpost'),
 ]

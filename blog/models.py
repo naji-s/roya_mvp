@@ -23,7 +23,7 @@ class Category(models.Model):
 
 class Post(models.Model):
     publish = models.BooleanField(default=False)
-    author = models.ForeignKey(User)
+    author = models.ForeignKey(User, null=True, blank=True)
     categories = models.ManyToManyField(Category)
     title = models.CharField(max_length=65)
     slug = models.SlugField(unique=True)
