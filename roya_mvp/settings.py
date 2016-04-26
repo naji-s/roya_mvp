@@ -37,7 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'blog'
+    'dal',
+    'dal_select2',
+    'blog',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -69,8 +71,6 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'roya_mvp.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
@@ -81,6 +81,7 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
 
 
 # Password validation

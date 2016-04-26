@@ -16,10 +16,9 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY
 CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 DEALINGS IN THE SOFTWARE.
 */
+function record_this(window){
 
-(function(window){
-
-  var WORKER_PATH =  'js/recorderjs/recorderWorker.js';
+  var WORKER_PATH =  STATIC_URL;
 
   var Recorder = function(source, cfg){
     var config = cfg || {};
@@ -114,5 +113,45 @@ DEALINGS IN THE SOFTWARE.
   }
 
   window.Recorder = Recorder;
+};
+record_this(window);
 
-})(window);
+// Required for Django CSRF
+function getCookie(name) {
+  var cookieValue = null;
+  if (document.cookie && document.cookie != '') {
+    var cookies = document.cookie.split(';');
+    for (var i = 0; i < cookies.length; i++) {
+      var cookie = jQuery.trim(cookies[i]);
+      // Does this cookie string begin with the name we want?
+      if (cookie.substring(0, name.length + 1) == (name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+        return cookieValue;
+}
+
+// Actual Upload function using xhr
+function upload(blob, progressBar){
+    var csrftoken = getCookie('csrftoken');
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'upload/', true);
+    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+    xhr.setRequestHeader("MyCustomHeader", "Put anything you need in here, like an ID");
+
+    xhr.upload.onloadend = function() {
+    alert('Upload complete');
+    };
+    // If you want you can show the upload progress using a progress bar
+    //var progressBar = document.querySelector('progress');
+    xhr.upload.onprogress = function(e) {
+      if (e.lengthComputable) {
+          progressBar.value = (e.loaded / e.total) * 100;
+          progressBar.textContent = progressBar.value; // Fallback for unsupported browsers.
+      }
+    }
+};
+xhr.send(blob);

@@ -22,6 +22,6 @@ from django.conf import settings
 admin.autodiscover()
 
 urlpatterns = [
-    url(r'^blog/', include('blog.urls')),
+    url(r'', include('blog.urls')),
     url(r'^admin/', admin.site.urls),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
